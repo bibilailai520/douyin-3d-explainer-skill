@@ -1,0 +1,8 @@
+import fs from 'node:fs';
+import path from 'node:path';
+import {fileURLToPath} from 'node:url';
+const root=path.resolve(path.dirname(fileURLToPath(import.meta.url)),'..'),e=JSON.parse(fs.readFileSync(path.join(root,'episode.json'),'utf8'));
+if(!e.demo)throw Error('Refusing demo audio in a production episode. Use the supplied voice and mix_audio.py.');
+const sr=48000,n=Math.ceil(e.duration*sr),samples=new Float32Array(n);let seed=20261103;const rand=()=>{seed^=seed<<13;seed^=seed>>>17;seed^=seed<<5;return(seed>>>0)/4294967296*2-1};
+for(const cue of e.sfx){if(cue.at<.18)continue;const duration=cue.kind==='whoosh'?.24:.19,len=Math.round(duration*sr),start=Math.round(cue.at*sr),amp=10**((cue.db??-16)/20);for(let i=0;i<len&&start+i<n;i++){const t=i/sr,f=cue.frequency||523.25,edge=Math.min(1,t/.004)*Math.min(1,(duration-t)/.016),v=cue.kind==='whoosh'?rand()*.4*Math.sin(Math.PI*t/duration)**2:Math.sin(2*Math.PI*(cue.kind==='hop'?190*t-220*t*t:f*t))*Math.exp(-t/.068);samples[start+i]+=v*amp*edge}}
+const b=Buffer.alloc(44+n*4);b.write('RIFF');b.writeUInt32LE(b.length-8,4);b.write('WAVEfmt ',8);b.writeUInt32LE(16,16);b.writeUInt16LE(1,20);b.writeUInt16LE(2,22);b.writeUInt32LE(sr,24);b.writeUInt32LE(sr*4,28);b.writeUInt16LE(4,32);b.writeUInt16LE(16,34);b.write('data',36);b.writeUInt32LE(n*4,40);for(let i=0;i<n;i++){const s=Math.round(Math.max(-.98,Math.min(.98,samples[i]))*32767);b.writeInt16LE(s,44+i*4);b.writeInt16LE(s,46+i*4)}fs.mkdirSync(path.join(root,'public/audio'),{recursive:true});fs.writeFileSync(path.join(root,'public',e.audio),b);console.log('Demo SFX only, no narration:',e.duration,'seconds');
