@@ -1,0 +1,17 @@
+import {gsap} from 'gsap';
+import {E,clamp} from './config';
+export const ease=(p:number)=>gsap.parseEase('power2.inOut')(clamp(p));
+export const PITCH=1550,TRANSITION_DURATION=1.2;
+export const CROSS_PROGRESS=(336-70)/PITCH;
+export const LEAD=TRANSITION_DURATION*Math.acos(1-2*CROSS_PROGRESS)/Math.PI;
+export const boundaries=E.shots.slice(1).map((s:any)=>s.start);
+export function trackAt(t:number){return boundaries.reduce((v:number,b:number)=>{const p=clamp((t-(b-LEAD))/TRANSITION_DURATION);return v+.5-.5*Math.cos(Math.PI*p)},0)}
+export function jumpAt(t:number){const b=boundaries.find((b:number)=>t>=b-.95&&t<b+1.15);return b===undefined?null:{local:t-b+.95,x:72*Math.sin(Math.PI*clamp((t-b+.95)/2.1)),blend:clamp((t-b+.95)/.16)}}
+export function entrancePose(t:number,i:number){const p=ease((t-.35)/3.8);return i===0?{scale:1+.48*(1-p),x:-70*(1-p),y:45*(1-p),rx:9*(1-p),rz:-.9*(1-p)}:{scale:1,x:0,y:0,rx:0,rz:0}}
+export function dropAt(local:number,start=0){const u=local-start,p=clamp(u/.72),fall=1-p*p,b=u>.72&&u<1.12?Math.sin((u-.72)/.4*Math.PI):0;return {visible:u>=0,z:420*fall+24*b,scaleX:1+.055*Math.sin(Math.PI*clamp((u-.68)/.14)),scaleY:1-.07*Math.sin(Math.PI*clamp((u-.68)/.14)),rotation:fall*-9,shadowOpacity:.10+.17*(1-fall),shadowScale:1.45-.45*(1-fall),shadowBlur:19*fall+5}}
+export const SKIN_POOL=['midnight','orbit','neon','moon','witch','santa','lion'];
+export function skinSequence(seed:string,count:number){let h=2166136261;for(const c of seed){h^=c.charCodeAt(0);h=Math.imul(h,16777619)}const rand=()=>{h^=h<<13;h^=h>>>17;h^=h<<5;return(h>>>0)/4294967296};let deck:string[]=[],last='classic';return Array.from({length:count},()=>{if(!deck.length){deck=[...SKIN_POOL];for(let i=deck.length-1;i>0;i--){const j=Math.floor(rand()*(i+1));[deck[i],deck[j]]=[deck[j],deck[i]]}}let k=deck.findIndex(v=>v!==last);if(k<0){deck=[...SKIN_POOL].filter(v=>v!==last);k=Math.floor(rand()*deck.length)}last=deck.splice(k,1)[0];return last})}
+const skins=skinSequence(E.seed,E.wardrobe.length);
+export function wardrobeAt(t:number){let skin='classic';for(let i=0;i<E.wardrobe.length;i++){const c=E.wardrobe[i],target=skins[i];if(t>=c.start+4.2)skin=target;else if(t>=c.start)return {skin,target,phase:t-c.start};else break}return {skin,target:skin,phase:-1}}
+export function locomotionAt(t:number){const none={active:false,clip:'idle',local:t,blend:0,x:0,y:0,yaw:0,lie:0};const e=E.motions.find((e:any)=>t>=e.start&&t<e.start+e.duration);if(!e||jumpAt(t)||wardrobeAt(t).phase>=0)return none;const l=t-e.start,u=l/e.duration,envelope=Math.min(clamp(l/.25),clamp((e.duration-l)/.3));if(e.kind==='spin')return {...none,active:true,clip:'spin',local:3.9*u,blend:envelope};if(e.kind==='lie'){const local=13.2*u,lie=ease((local-.58)/1.58)*(1-ease((local-10.25)/1.72));return {...none,active:true,clip:'lie',local,blend:envelope,lie}}
+ const go=ease((u-.1)/.3),back=ease((u-.56)/.3),travel=go-back,vertical=['up','down'].includes(e.axis),sign=e.axis==='down'?1:-1,away=vertical?(sign<0?Math.PI:0):-Math.PI/2,ret=vertical?(sign<0?2*Math.PI:Math.PI):Math.PI/2,finish=vertical?2*Math.PI:0;let yaw=u<.1?away*ease(u/.1):u<.4?away:u<.56?away+(ret-away)*ease((u-.4)/.16):u<.86?ret:ret+(finish-ret)*ease((u-.86)/.14);const gait=Math.max(Math.min(clamp((u-.1)/.05),clamp((.4-u)/.05)),Math.min(clamp((u-.56)/.05),clamp((.86-u)/.05)));return {...none,active:true,clip:'walk',local:(go+back)*1.15,blend:envelope*gait,x:vertical?sign*8*travel:-58*travel,y:vertical?sign*68*travel:8*travel,yaw}}

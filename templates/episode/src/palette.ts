@@ -1,0 +1,6 @@
+import {E} from './config';
+const colors=[{h:10,ink:'#a64f41',soft:'#fff1eb',line:'#f4c8b8',edge:'#e8a58f',deep:'#c97765',bg:'#f1ded5'},{h:186,ink:'#247c83',soft:'#e7f7f4',line:'#aedbd7',edge:'#77c5bc',deep:'#429d98',bg:'#d5edec'},{h:265,ink:'#6c57a1',soft:'#f2edfc',line:'#d1bfe9',edge:'#ad92d4',deep:'#8864b4',bg:'#e5dff2'},{h:38,ink:'#9c671f',soft:'#fff5dd',line:'#ead3a5',edge:'#dbb467',deep:'#bc8a3e',bg:'#f4e7c9'},{h:152,ink:'#31765d',soft:'#e9f6e9',line:'#bcdcc1',edge:'#91c5a0',deep:'#649f7b',bg:'#dcebdc'}];
+export const palettes=E.chapters.map((ch:any,i:number)=>({...ch,...colors[i%colors.length],...(ch.palette||{})}));
+export function paletteAt(t:number){return [...palettes].reverse().find(p=>t>=p.at)||palettes[0]}
+export function paletteVars(t:number):any{const p=paletteAt(t);return {'--chapter-h':p.h,'--ink-accent':p.ink,'--soft':p.soft,'--line':p.line,'--edge':p.edge,'--deep':p.deep}}
+export function backgroundAt(t:number){const i=Math.max(0,palettes.findIndex((p:any,j:number)=>t>=p.at&&(j===palettes.length-1||t<palettes[j+1].at))),p=palettes[i],prev=palettes[Math.max(0,i-1)];let u=Math.max(0,Math.min(1,(t-p.at)/2.4));u=u*u*(3-2*u);const hex=(s:string)=>[1,3,5].map(i=>parseInt(s.slice(i,i+2),16)),a=hex(prev.bg),b=hex(p.bg);return `rgb(${a.map((v,j)=>Math.round(v+(b[j]-v)*u)).join(',')})`}
