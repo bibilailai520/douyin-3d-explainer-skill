@@ -1,0 +1,25 @@
+{
+  "title": "3D科普工程演示",
+  "demo": true,
+  "productionReady": false,
+  "fps": 30,
+  "width": 1920,
+  "height": 1080,
+  "duration": 24,
+  "seed": "account-demo-v1",
+  "audio": "audio/full-mix.wav",
+  "narration": null,
+  "subtitleSize": 52,
+  "keywords": ["资料", "工具", "权限", "语义", "演示"],
+  "chapters": [{"at":0,"text":"从资料开始"},{"at":8,"text":"建立关系"},{"at":16,"text":"权限边界"}],
+  "shots": [
+    {"id":"documents","start":0,"end":8,"title":"资料，怎样变成答案？","kicker":"先把问题说清楚","type":"flow","action":"present","expr":"smile","items":[{"label":"资料","icon":"file","color":"#527cff","dropAt":1.0},{"label":"工具","icon":"tool","color":"#21aaa5","dropAt":2.1},{"label":"答案","icon":"check","color":"#e7a245","dropAt":3.2}],"takeaway":"看到关系，再选择工具"},
+    {"id":"relations","start":8,"end":16,"title":"让信息沿着关系流动","kicker":"用可见动作解释抽象概念","type":"network","action":"think","expr":"idea","items":[{"label":"输入","icon":"file","color":"#20a6a3"},{"label":"处理","icon":"tool","color":"#8c6ac7"},{"label":"结果","icon":"check","color":"#df9843"}],"takeaway":"物体和路线使用同一时间轴"},
+    {"id":"permission","start":16,"end":24,"title":"权限，给到刚刚好","kicker":"连接能力，也约束范围","type":"keys","action":"present","expr":"smile","items":[{"label":"查资料","icon":"file","color":"#5b82dc","dropAt":0.5},{"label":"用工具","icon":"tool","color":"#2ca2a5","dropAt":1.25},{"label":"定范围","icon":"lock","color":"#d99835","dropAt":2.0}],"takeaway":"范围清楚，才谈得上可靠"}
+  ],
+  "captions": [{"start":0.5,"end":4.1,"text":"演示：资料、工具与答案逐一落地"},{"start":4.2,"end":7.7,"text":"这个样片没有真人配音"},{"start":8,"end":11.9,"text":"用路线和动作解释语义"},{"start":12,"end":15.7,"text":"机器人按固定种子变装"},{"start":16,"end":19.7,"text":"字幕、动作和音效共用时间轴"},{"start":20,"end":23.8,"text":"正式片请替换为本期定稿和配音"}],
+  "sfx": [{"at":1.72,"kind":"note","frequency":523.25,"db":-15,"anchor":"资料首次接触"},{"at":2.82,"kind":"note","frequency":587.33,"db":-15,"anchor":"工具首次接触"},{"at":3.92,"kind":"note","frequency":659.25,"db":-15,"anchor":"答案首次接触"},{"at":7.05,"kind":"hop","db":-17},{"at":7.7,"kind":"whoosh","db":-20},{"at":8.85,"kind":"land","db":-17},{"at":11.5,"kind":"charge","db":-20},{"at":15.05,"kind":"hop","db":-17},{"at":15.7,"kind":"whoosh","db":-20},{"at":16.85,"kind":"land","db":-17},{"at":17.22,"kind":"note","frequency":698.46,"db":-15},{"at":17.97,"kind":"note","frequency":783.99,"db":-15},{"at":18.72,"kind":"note","frequency":880,"db":-15}],
+  "wardrobe": [{"start":9.4}],
+  "motions": [{"start":19.2,"duration":3.7,"kind":"spin"}],
+  "bubbles": [{"start":3.6,"end":5.5,"text":"先看懂关系","icon":"!"},{"start":13.8,"end":15,"text":"这条路线很重要","icon":"↗"},{"start":20.2,"end":23.5,"text":"你会怎样选？","icon":"?"}]
+}

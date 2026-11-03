@@ -1,0 +1,25 @@
+{
+  "name": "douyin-3d-explainer-episode",
+  "private": true,
+  "version": "1.0.0",
+  "scripts": {
+    "browser:ensure": "node scripts/ensure-browser.mjs",
+    "studio": "remotion studio src/index.tsx",
+    "stills": "node render.mjs stills",
+    "opening": "node render.mjs opening",
+    "render": "node render.mjs full",
+    "demo:audio": "node scripts/demo-audio.mjs"
+  },
+  "dependencies": {
+    "@remotion/bundler": "4.0.507",
+    "@remotion/cli": "4.0.507",
+    "@remotion/renderer": "4.0.507",
+    "remotion": "4.0.507",
+    "react": "19.2.8",
+    "react-dom": "19.2.8",
+    "three": "0.182.0",
+    "gsap": "3.13.0"
+  },
+  "devDependencies": {"typescript": "5.9.3", "@types/react": "19.2.2", "@types/three": "0.182.0"},
+  "engines": {"node": ">=20"}
+}
