@@ -1,0 +1,10 @@
+const fs=require('fs'),path=require('path'),ts=require('typescript');
+const root=path.resolve(__dirname,'..');
+const code=ts.transpileModule(fs.readFileSync(path.join(root,'src/rail-geometry.ts'),'utf8'),{compilerOptions:{module:ts.ModuleKind.CommonJS,target:ts.ScriptTarget.ES2022}}).outputText;
+const m={exports:{}};new Function('exports','module','require',code)(m.exports,m,require);
+const g=m.exports,points=g.projectBoard(0),bounds={left:Math.min(...points.map(p=>p.x)),right:Math.max(...points.map(p=>p.x)),top:Math.min(...points.map(p=>p.y)),bottom:Math.max(...points.map(p=>p.y))};
+const peek=Math.max(...g.projectBoard(-1).map(p=>p.x)),exit=Math.min(...g.projectBoard(1).map(p=>p.x));
+const checks={sameLocalScale:[-1,0,1].every(d=>g.railPose(d).scale===1),readingRegion:bounds.left>=0&&bounds.right<=1920&&bounds.top>=100&&bounds.bottom<=930,nextCardPreview:peek>=30&&peek<=180,outgoingClear:exit>=1920,robotCrossing:Math.abs(g.CROSSING.x-g.CROSSING.edge)<.001};
+const report={checks,bounds,nextPeekRight:peek,outgoingLeft:exit,readingScale:g.READING_SCALE,ip:g.IP_LAYOUT,projectedPivot:g.PROJECTED_PIVOT,crossing:g.CROSSING,scope:'Geometry only. Inspect rendered opening, transitions, fonts and 390px frames separately.'};
+fs.mkdirSync(path.join(root,'qa'),{recursive:true});fs.writeFileSync(path.join(root,'qa/layout.json'),JSON.stringify(report,null,2));
+console.log(JSON.stringify(report,null,2));if(Object.values(checks).some(v=>!v))process.exit(1);
