@@ -1,0 +1,23 @@
+/* Navigation stays readable as context while the teaching board leads. */
+.chapter-nav.chapter-quiet{
+  left:420px;right:420px;top:35px;height:44px;gap:20px;
+}
+.chapter-quiet .nav-step,
+.chapter-quiet .nav-step:not(.active),
+.chapter-quiet .nav-step.active{
+  height:44px;padding:0 5px 10px;justify-content:center;gap:0;
+  background:transparent;border:0;border-radius:0;box-shadow:none;
+  transform:none;
+}
+.chapter-quiet .nav-step span{
+  font-size:29px;line-height:1.1;font-weight:500;color:#85909e;
+}
+.chapter-quiet .nav-step.done span{color:#758291}
+.chapter-quiet .nav-step.active span{
+  font-size:32px;font-weight:650;color:var(--ink-accent);
+}
+.chapter-quiet .nav-step>i{
+  left:0;right:0;bottom:0;height:3px;border-radius:3px;background:#8191a61c;
+}
+.chapter-quiet .nav-step em{border-radius:3px}
+.chapter-quiet .nav-step.done em{opacity:.42}

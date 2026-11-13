@@ -1,0 +1,18 @@
+.chapter-nav.chapter-quiet{
+  left:auto;right:72px;width:860px;top:36px;height:38px;gap:18px;
+}
+.chapter-quiet .nav-step,
+.chapter-quiet .nav-step:not(.active),
+.chapter-quiet .nav-step.active{height:38px;padding-bottom:8px}
+.chapter-quiet .nav-step span{font-size:24px}
+.chapter-quiet .nav-step.active span{font-size:26px}
+.chapter-quiet .nav-step>i{height:2px}
+.account-brand{
+  position:absolute;left:72px;top:28px;width:48px;height:48px;
+  z-index:100;overflow:hidden;border-radius:50%;
+  border:1px solid #ffffffb8;background:#ffffff50;
+}
+.account-brand img{
+  position:absolute;width:80px;height:112px;left:-16px;top:-23px;
+  max-width:none;object-fit:contain;
+}

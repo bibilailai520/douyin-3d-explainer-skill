@@ -1,0 +1,8 @@
+.episode-chapter-progress{position:absolute;top:24px;right:72px;width:540px;height:80px;z-index:110}
+.episode-chapter-heading{height:58px;display:flex;align-items:center;justify-content:space-between;gap:30px;white-space:nowrap}
+.episode-chapter-name{font-size:46px;line-height:58px;font-weight:700;min-width:0}
+.episode-chapter-count{display:flex;gap:9px;align-items:baseline;color:#8d9aaa;font-size:48px;font-weight:500;font-variant-numeric:tabular-nums;line-height:1;flex-shrink:0}
+.episode-chapter-count b{font-weight:700}.episode-chapter-count>span{color:#b1bcc9}
+.episode-chapter-segments{display:grid;gap:10px;height:6px;margin-top:9px}
+.episode-chapter-segment{height:6px;overflow:hidden;border-radius:3px;background:#c9d3e0}
+.episode-chapter-segment>div{height:100%;border-radius:inherit}.episode-chapter-segment.is-current{background:#bccbdb}

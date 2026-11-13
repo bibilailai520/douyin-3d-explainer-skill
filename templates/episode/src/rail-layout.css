@@ -1,0 +1,6 @@
+/* One shared plane and camera for all equal-size boards. */
+.board-move{left:0;top:0;transform-origin:0 0;transform-style:preserve-3d;}
+.rail-layer{position:absolute;inset:0;isolation:isolate;}
+.rail-shadows{z-index:0;pointer-events:none;}
+.rail-boards{z-index:1;}
+.board-shadow{left:12px;right:-18px;top:12px;bottom:-18px;filter:blur(23px);background:#40385532;box-shadow:14px 20px 32px #413a521c;transform-origin:50% 50%;}

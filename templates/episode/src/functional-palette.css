@@ -1,0 +1,15 @@
+body{color:#243B53}
+.board-face{border-color:var(--line);background:radial-gradient(circle at 14px 14px,#B9CBD83B 1.1px,transparent 1.4px) 0 0/25px 25px,linear-gradient(120deg,#FBFCFE,#FBFCFE 78%,var(--soft));box-shadow:inset 2px 3px 5px #FFFFFFC7,inset -8px -8px 12px #8DA5B61A}
+.board-title{color:#243B53}
+.board-stratum{border-color:color-mix(in srgb,var(--edge),#243B53 5%)}
+.board-shadow{background:#243B5333;box-shadow:14px 20px 32px #243B5321}
+.board-sheen{box-shadow:17px 23px 18px #243B532E}
+.small-tile{background:linear-gradient(125deg,#FBFCFE,#FBFCFE 75%,color-mix(in srgb,var(--mini),#FBFCFE 94%));border-color:color-mix(in srgb,var(--mini),#FBFCFE 65%);box-shadow:3px 5px color-mix(in srgb,var(--mini),#FBFCFE 66%),5px 8px color-mix(in srgb,var(--mini),#FBFCFE 48%),7px 12px color-mix(in srgb,var(--mini),#243B53 18%)}
+.small-tile strong{color:#243B53}
+.takeaway{color:#3E6079}
+.network-node{background:#FBFCFE;color:#243B53}
+.caption>div{background:rgba(36,59,83,.70);padding:9px 23px;border-radius:21px;box-shadow:10px 16px 27px #243B5340;border:1px solid #E6F2F826}
+.chapter-quiet .nav-step.active span{color:#326B9A}
+.chapter-quiet .nav-step em{background:#4F90CE}
+.ip-bubble{background:#FBFCFEF5;color:#243B53;box-shadow:0 9px 24px #243B5330}
+.ip-bubble:after{background:#FBFCFE}
