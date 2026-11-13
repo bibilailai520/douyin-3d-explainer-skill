@@ -26,12 +26,18 @@
 
 ## 4. 起步工程
 
-用new_episode.py在新目录复制模板。`episode.json`是内容/时序入口；`src/Scenes.tsx`扩展本期语义对象；`src/Robot.tsx`、`motion.ts`和`robot.js`是成熟基础。不要改成仅靠CSS滤镜假装3D机器人。变装、动作、气泡应与配音的情绪/操作语义对应，不均匀机械地排满。
+先阅读[recent-production.md](recent-production.md)，落实第0帧拉远、浅色动态网格、真实厚度与投影、章节独立进度和稀疏音效。素材状态与时间轴以当前文件为准。
+
+用new_episode.py在新目录复制模板。`episode.json`是内容/时序入口；`src/Scenes.tsx`扩展本期语义对象；`src/Robot.tsx`、`motion.ts`和`robot-runtime.js`是成熟基础。不要改成仅靠CSS滤镜假装3D机器人。变装、动作、气泡应与配音的情绪/操作语义对应，不均匀机械地排满。
 
 ## 5. 迭代
 
 先出第0帧/入场/退远/第一落点/第一次跳卡/帽子最大皮肤/关键抽象概念等静帧，再出开头预览。预览要连看，不能凭几帧判断跳跃丝滑。通过后全片。修改时标明修改范围和新版本；大范围轨道/字体/投影变化应重新检查所有受影响镜头。
 
+轨道与字号调整先跑`npm run check:layout`，再看390px宽缩图和同一时刻前后对比。卡片与其内容一起放大，重新排IP、气泡和底条。复用旧音轨时按timing-audio.md做载荷与时间戳核对；渲染器支持`OUTPUT_NAME`输出新版本，已有成片默认不覆盖。
+
 ## 6. 交付
+
+完整渲染前执行`npm run typecheck`、`npm run check:layout`、`npm run check:presentation`、`npm run check:render-plan`。较长工程可用`npm run render:segments`，逐镜静音、拼接后统一加入整条混音。保留源代码/素材指纹与最终视频哈希。
 
 在output目录保存成片、SRT和发布素材。保留episode.json、SHOTBOOK、音效JSON、运行依赖锁、来源、QA报告。最终交付区分：文件已生成、完整解码通过、抽帧检查、人工听检、完整连续播放、独立审片；只报告实际完成的项。

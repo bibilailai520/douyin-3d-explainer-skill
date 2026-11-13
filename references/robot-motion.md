@@ -2,7 +2,7 @@
 
 ## 身份和渲染
 
-`templates/episode/src/robot.js`是当前账号的几何/材质/骨骼渲染器，来源于用户机器人代码的生产适配，不用生成图替换成另一种吉祥物。参考图在assets/robot-classic.png。识别特征：大圆头、黑色弧面屏、青色笑眼、橙色天线球、短颈、紧凑躯干、分指关节和厚靴，胸灯按全片时间呼吸。
+`templates/episode/src/robot-runtime.js`是当前账号的几何/材质/骨骼渲染器，来源于用户机器人代码的生产适配，不用生成图替换成另一种吉祥物。参考图在assets/robot-classic.png。识别特征：大圆头、黑色弧面屏、青色笑眼、橙色天线球、短颈、紧凑躯干、分指关节和厚靴，胸灯按全片时间呼吸。运行时采用独立文件名，避开Windows下`Robot.tsx`与`robot.js`的解析冲突。
 
 `createUserRobot(canvas,THREE)`返回render、dispose、robot、camera、renderer、CLIPS、SKINS、state。render参数依次是`t, clip, local, expr, prevClip, prevLocal, blend, jumpScale, wardrobe`，wardrobe包含`skin,target,phase`。phase<0时稳定皮肤；变装动画约4.2秒，适配器按实际函数时长使用。
 
@@ -28,7 +28,7 @@
 
 核心已有clip包括idle、walk、jump、spin、lie、morph、present、think；真实可用项以运行时CLIPS为准，不能凭表格创造不存在的接口。表达式同理检查源码。小动作建议一个窗口只做一件事；转圈3.7秒左右，走动3.6–3.8秒，上下方向屏幕位移约68px，先离开原位再回到原位。
 
-躺下需要相机、影子、气泡锚点一起变化；保留约13.2秒源clip或经过验证的时间重映射。不要只把IPcanvas旋转90°伪装躺下。
+躺下需要相机、影子、气泡锚点一起变化。当前`lieLocalAt`保留约2.9秒躺下和4.05秒起身，中间保持段按事件时长重映射到13.2秒源clip；优先给完整动作留足窗口，短于约7.3秒应换短动作。不要只把IPcanvas旋转90°伪装躺下。相机与抬眼补偿使用同一个`lieAmount`，避免身体已躺平而视角突然竖回去。
 
 ## 变装池与互动
 
