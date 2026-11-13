@@ -1,8 +1,8 @@
 ---
 name: douyin-3d-explainer
-description: 将中文定稿和现成配音制作成横版科普视频，沿用账号的亮色立体卡片、3D机器人变装、语义动画、配音字幕与音效，并按指定封面模板交付发布素材。适合“按上一期风格生成视频”“给配音配画面”“修改机器人、卡片或音效”；不自动生成新配音或发布视频。
+description: 将中文定稿和现成配音制作成横版科普视频，沿用账号的亮色立体卡片、3D机器人变装、语义动画、配音字幕与音效，并按本期要求交付含IP互动场景的封面和发布素材。适合“按上一期风格生成视频”“给配音配画面”“修改机器人、卡片或音效”；不自动生成新配音或发布视频。
 metadata:
-  version: "1.0.0"
+  version: "1.2.0"
   author: bibilailai520
   display_name: 抖音3D机器人科普视频
   display_name_en: Douyin 3D Explainer
@@ -23,23 +23,26 @@ metadata:
 3. 新建工程：`python scripts/new_episode.py --out "D:/Videos/my-episode" --title "本期标题" --script "定稿.md" --voice "配音.mp3"`。目标目录必须不存在；不会覆盖用户旧片。已知已有工程时在其版本副本上修改。
 4. 在工程目录执行 `npm install`；`npm run browser:ensure` 安装渲染浏览器；`node scripts/fetch-font.mjs` 安装开源中文字体。支持 `CHROME_PATH`、`FFMPEG_PATH`、`FFPROBE_PATH` 环境变量。
 5. 参照 [references/timing-audio.md](references/timing-audio.md) 生成并核对字幕时间；把镜头、章节、字幕、落点、音效、变装与小动作写进 `episode.json`。必须把脚手架的 `demo:true` 改为 `false`，并删除演示台词、镜头和事件。
-6. 按 [references/visual-system.md](references/visual-system.md)、[references/robot-motion.md](references/robot-motion.md) 制作语义画面；结构/接口见 [references/architecture.md](references/architecture.md)。优先保留成熟轨道和机器人渲染器，不回退成整页文字加淡入淡出的PPT。
+6. 先读 [references/recent-production.md](references/recent-production.md) 了解最近几期已落地的修正，再按 [references/visual-system.md](references/visual-system.md)、[references/robot-motion.md](references/robot-motion.md) 制作画面；结构/接口见 [references/architecture.md](references/architecture.md)。解释原理时先画对象如何变化、流转与消耗，保留短标签。可参考 [references/semantic-recipes.md](references/semantic-recipes.md) 的两段真实Three.js动画，按新主题改写。
 7. 先渲染开头及关键帧检查，再合成配音、音效，完成全片：`python "<技能根>/scripts/mix_audio.py" --project .` → `npm run stills` → `npm run opening` → `npm run render`。首次环境验证可用 `npm run demo:audio`，该命令只给 `demo:true` 工程造演示音效，不生成真人配音。
 8. 执行 `python "<技能根>/scripts/qa_episode.py" --project . --decode`，再按 [references/quality-gates.md](references/quality-gates.md) 检查实际编码视频。按实际发生情况记录播放、听检和审片，不能把元数据检查写成整片验收。
 
 ## 必须保留的账号约定
 
 - HTML/React定位置和层级；CSS定字体、配色、厚度和阴影；SVG画图标和关系；Canvas画路线与流动；Three.js负责机器人及真正3D物件；GSAP负责可按时间定位的缓动。Remotion控制每帧时间、字幕、音频和导出。
-- 亮色背景随章节柔和变化。大卡片有圆角厚边、右下投影、小卡片有接触阴影；开头近景明显退远，下一张卡片从**左侧向右**滑入。左侧预露下一张卡片应在退远后才显现。
+- 浅色动态网格、柔白大板、深海蓝文字；琥珀金与薄荷绿承担对立的功能角色，科技蓝表示公共信息。按章节低饱和微变；新主题重新定义角色，不把每种对象都涂成不同颜色。
+- 大卡片有圆角厚边、右下投影，小卡片有接触阴影。所有等大卡片共用同一平面，绕画面下方远处中心旋转；下一张从**左侧向右**滑入。开头两张卡片预先排好，再共同近景退远，让预露板自然进入画面；从第0帧就开始退远，约4.15秒归位，不预留静止等待。下一板实体预先在场，标题与正文按各镜全局起点显现；不延迟创建第二张卡片，也不单独缩小左卡。
 - IP在左侧安全区，第0帧不在画面中央；从画外走入。前景层级高于全部大卡片。机器人朝向匹配大卡片的平面，切卡时跳过来卡片边沿；保留皮肤展示、胸灯呼吸、表情和头顶气泡。
 - 默认在用户指定七套皮肤中按本期固定随机种子抽取，不连续重复。池为2深空夜航、5轨道航天、6赛博霓虹、9月兔中秋、11夜行巫师、12雪夜礼颂、13醒狮贺岁。封面默认经典银白，除非本期另有要求。
-- 字幕以**实际配音**为准；1920×1080默认52px，灰色底**70%不透明**、圆角、较明显软影，重点词黄。用户新指定字号覆盖此默认。章节进度置顶。
-- 第0秒不加突兀音效；下落卡片落地才响Do/Re/Mi等短音，跳起/落地/翻页有对应音效，不用持续爆音代替动效。增大音效要重新核对人声可懂度与真峰值。
+- 手机阅读使用V4起点：共享平面放大1.12倍，标题68px、流程标签40px左右，再随卡片一起投影。字幕默认60px、灰底`rgba(65,67,80,.70)`、bottom=28px；关键词用较亮的同色系，成本暖金、复用薄荷绿，公共信息浅蓝。具体字号和位置以390px缩图与遮挡检查调整，不机械套尺寸。
+- 右上角使用独立`ChapterProgress`组件：当前章名46px与章序48px在上，分段进度在下，段数从章节配置生成；左侧用账号Logo。不要恢复旧版多章小字导航。放大板面和文字时，同时检查IP、气泡、底条与预露板；必要时让IP向左留出阅读空间。几何改动后运行`npm run check:layout`，再检查实际转场帧。
+- 小卡从高处落下，保留侧壁、接触影与右下软投影；按语义移动完整文件、书页或模型。删除无信息的循环小圆点，圆盘与环共用同一中心。
+- 第0秒不加突兀音效；下落卡片落地才响Do/Re/Mi等短音，跳起/落地/翻页有对应音效，不用持续爆音代替动效。音效优先保留关键接触与转场，不给每个细小运动铺声；增大音效要重新核对人声可懂度与真峰值。
 - 不强制“前30秒每3–4.2秒换构图”：用户后来取消了这个固定频率。按语义触发内部动作与画面变化；同画面没有信息推进时再拆镜头。
 
 ## 发布素材（用户要求时）
 
-保留用户指定标题；标题20字内（用户另定除外），简介给出本期收获并留一个具体互动问题，话题不伪称实时热榜。按 [references/cover.md](references/cover.md) 使用 `assets/cover-template.png` 和 `assets/robot-classic.png` 生成1080×1440 RGB封面。保存完整提示词和生成方式；没有图像生成能力时说明限制，不拿默认字体拼图冒充模板字体。
+保留用户指定标题；标题20字内（用户另定除外），简介给出本期收获并留一个具体互动问题，话题不伪称实时热榜。按 [references/cover.md](references/cover.md) 生成1080×1440 RGB封面。用`assets/robot-classic.png`锁定IP；最近一期采用全新排版，机器人与主题物件发生动作。旧`assets/cover-template.png`仅在用户要求沿用旧模板时启用。保存完整提示词和生成方式；没有图像生成能力时说明限制，不拿默认字体拼图冒充模板字体。
 
 ## 能力和权限边界
 
@@ -48,3 +51,5 @@ metadata:
 ## 交付
 
 完整MP4、SRT、可编辑工程、`SHOTBOOK.md`、音效事件表、版本与检查记录；请求发布素材时另附标题/简介/话题、封面、提示词。最后报告**实际绝对输出路径**及尚未完成的人工检查。
+
+只改画面时，可用`scripts/reuse_audio.py`把上一版最终音轨原样封装到新画面，核对音频载荷和时间戳；原声与音效都保持同一条流。若也改了音效或配音，则重新混音和测量，不能沿用旧音频检查结论。先生成新版本，保留上一版。长片可用`npm run render:segments`逐镜静音渲染、统一混音；操作与断点复用条件见[references/architecture.md](references/architecture.md)。
