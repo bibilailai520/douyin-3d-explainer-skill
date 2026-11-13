@@ -8,7 +8,12 @@
     "stills": "node render.mjs stills",
     "opening": "node render.mjs opening",
     "render": "node render.mjs full",
-    "demo:audio": "node scripts/demo-audio.mjs"
+    "demo:audio": "node scripts/demo-audio.mjs",
+    "check:layout": "node scripts/check-layout.cjs",
+    "typecheck": "tsc --noEmit",
+    "check:presentation": "node scripts/check-presentation.cjs",
+    "check:render-plan": "node scripts/check-render-plan.mjs",
+    "render:segments": "node scripts/render-segments.mjs"
   },
   "dependencies": {
     "@remotion/bundler": "4.0.507",
@@ -20,6 +25,12 @@
     "three": "0.182.0",
     "gsap": "3.13.0"
   },
-  "devDependencies": {"typescript": "5.9.3", "@types/react": "19.2.2", "@types/three": "0.182.0"},
-  "engines": {"node": ">=20"}
+  "devDependencies": {
+    "typescript": "5.9.3",
+    "@types/react": "19.2.2",
+    "@types/three": "0.182.0"
+  },
+  "engines": {
+    "node": ">=20"
+  }
 }
